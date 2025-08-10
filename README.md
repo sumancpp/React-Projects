@@ -1,4 +1,4 @@
-# # 📞 Video and Voice Calling App using React
+## 📞 Video and Voice Calling App using React
 This project is a real-time communication platform built with React and powered by ZEGOCLOUD’s prebuilt UI kit.
 It allows users to make high-quality voice and video calls, send text messages, and even share their screen — all within a single web interface.
 
