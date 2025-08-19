@@ -1,12 +1,18 @@
-# React + Vite
+# 🍔 Food Delivery Website  
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+I built a simple **Food Delivery Website** using **React.js** 🚀.  
+It started as practice but I kept adding cool features along the way:  
 
-Currently, two official plugins are available:
+- 👉 Category-based food filtering  
+- 🛒 Dynamic Cart (add/remove items)  
+- ✅ Toast notifications for actions (like add to cart, place order)  
+- 🎨 Clean UI with TailwindCSS  
+- 🔄 State management using Redux & Context  
+- 📱 Fully responsive design  
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+Still planning to add more features like authentication, backend integration & payments 👀  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+🌐 **Live Project:** [Click Here to Try 🚀](https://suman-cafe.netlify.app/)  
+
