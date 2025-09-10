@@ -1,12 +1,60 @@
-# React + Vite
+# 🎤 Shifra 2.0 – Voice-Powered Virtual Assistant 🤖
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+Shifra 2.0 is a **voice-powered AI virtual assistant** built with **React.js, Speech Recognition, and Web Speech API**.  
+It listens to your commands, processes them with AI, and responds intelligently – all with a smooth and interactive UI.  
 
-Currently, two official plugins are available:
+---
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+## 🚀 Features
+- ✅ **Voice Input with Real-Time Transcription**  
+- ✅ **AI-Powered Responses**  
+- ✅ **Dynamic UI Updates** – buttons hide while listening/speaking  
+- ✅ **Speech Synthesis for Natural Responses**  
+- ✅ **Microphone Permission Handling** for secure usage  
+- ✅ **Clean & Responsive UI** with React Hooks  
 
-## Expanding the ESLint configuration
+---
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+## 🛠️ Tech Stack
+- **Frontend:** React.js, JavaScript, HTML, CSS  
+- **APIs:** Web Speech API (Speech Recognition + Speech Synthesis)  
+- **State Management:** React Hooks (`useState`, `useEffect`, `useContext`)  
+
+---
+
+## 🌐 Live Demo
+👉 [Try Shifra 2.0 Here](https://shifra-advanced-virtual-assistant.netlify.app/)  
+
+---
+
+## 📂 Repository
+👉 [GitHub Repo](https://github.com/sumancpp/React-Projects/tree/main/Virtual%20Assistant)  
+
+---
+
+## 📖 How to Run Locally
+1. Clone the repository  
+   ```bash
+   git clone https://github.com/sumancpp/React-Projects.git
+Navigate to the project folder  
+   cd React-Projects/Virtual Assistant  
+
+Install dependencies  
+   npm install  
+
+Start the development server  
+   npm start  
+
+---   
+
+## 🎯 Learning Outcomes
+
+This project helped me strengthen my knowledge in:
+
+React.js fundamentals & advanced concepts
+
+Browser Speech APIs integration
+
+Asynchronous audio handling in JavaScript
+
+Building responsive and interactive UIs
