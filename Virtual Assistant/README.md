@@ -35,15 +35,10 @@ It listens to your commands, processes them with AI, and responds intelligently 
 ## 📖 How to Run Locally
 1. Clone the repository  
    ```bash
-   git clone https://github.com/sumancpp/React-Projects.git
-Navigate to the project folder  
-   cd React-Projects/Virtual Assistant  
-
-Install dependencies  
-   npm install  
-
-Start the development server  
-   npm start  
+   git clone https://github.com/sumancpp/React-Projects.git   
+   cd React-Projects/Virtual Assistant    
+   npm install    
+   npm start    
 
 ---   
 
