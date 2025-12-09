@@ -27,7 +27,8 @@ function Card({ name, image, id, price, type }) {
         </div>
       </div>
 
-      <button
+      <
+        button
         className='w-full p-4 bg-green-500 text-white text-xl rounded-lg hover:bg-green-700 transition-all hover:text-2xl cursor-pointer'
         onClick={() =>
           {dispatch(addItem({ id, name, price, image, qty: 1 }));
