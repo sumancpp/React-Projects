@@ -1,5 +1,5 @@
 // src/Command.jsx
-const OPENWEATHER_API_KEY = "9abe0082b9fc5f1e58f9a74bec010b91";
+const OPENWEATHER_API_KEY = "Your Api Key";
 
 export async function takeCommand(
   command,
