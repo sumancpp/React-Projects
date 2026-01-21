@@ -65,10 +65,8 @@ useEffect(() => {
   }
 }, [isListening, speaking, response, prompt]);
 
-
-
-
-  // Cleanup timeout
+  
+// Cleanup timeout
   useEffect(() => {
     return () => {
       if (buttonDelayRef.current) {
