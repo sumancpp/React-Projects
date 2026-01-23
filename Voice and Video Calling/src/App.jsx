@@ -42,7 +42,6 @@ function App() {
        <button className='w-[200px] h-[50px] rounded-2xl bg-white text-black cursor-pointer text-20px' onClick={()=>invite(ZegoUIKitPrebuilt.InvitationTypeVoiceCall)}>Voice Call</button>
        <button className='w-[200px] h-[50px] cursor-pointer rounded-2xl bg-white text-black text-20px'onClick={()=>invite(ZegoUIKitPrebuilt.InvitationTypeVideoCall)}>Video Call</button>
       </div>
-      
     </div>
   );
 }
