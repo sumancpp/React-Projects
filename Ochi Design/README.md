@@ -1,16 +1,79 @@
-# React + Vite
+:
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+🚀 Ochi Design Inspired Website
 
-Currently, two official plugins are available:
+A modern frontend project inspired by Ochi Design, built to focus on smooth user experience, clean UI, and engaging animations.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+📌 About The Project
 
-## React Compiler
+This project is developed to practice and implement modern frontend animation techniques, smooth scrolling behavior, and structured component-based architecture using React.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+The primary goal was to recreate a design-focused website while maintaining clean code structure and smooth interactive experiences.
 
-## Expanding the ESLint configuration
+🛠️ Tech Stack
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+⚛️ React.js – Reusable and scalable component-based architecture
+
+🎬 Framer Motion – Smooth and interactive animations
+
+🌊 Smooth Scrolling Effects – Seamless scrolling experience
+
+🎨 Tailwind CSS – Modern and utility-first styling
+
+🔥 Project Highlights
+
+Pixel-perfect layout structure
+
+Smooth motion transitions
+
+Interactive hover animations
+
+Scroll-based animation effects
+
+Clean and reusable component architecture
+
+Modern UI implementation
+
+⚠️ Important Note
+
+This project is not fully responsive yet.
+
+It was built at an early stage with primary focus on:
+
+Animation logic
+
+Smooth scrolling behavior
+
+Layout precision
+
+Responsive optimization will be implemented in a future update.
+
+🔗 Live Demo
+
+👉 https://ochi-design-by-suman.vercel.app/
+
+💻 GitHub Repository
+
+👉 https://github.com/sumancpp/React-Projects/edit/main/Ochi%20Design
+
+📚 What I Learned
+
+This project helped me strengthen my understanding of:
+
+Advanced frontend structuring
+
+Animation timing and easing
+
+Scroll-based interactions
+
+Building modern real-world web interfaces
+
+🚀 Future Improvements
+
+Full responsiveness for all devices
+
+Performance optimization
+
+Additional animation refinements
+
+⭐ If you like this project, feel free to star the repository!
