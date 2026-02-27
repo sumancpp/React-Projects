@@ -53,3 +53,6 @@ Clone the repository:
 
 ```bash
 https://github.com/sumancpp/React-Projects/edit/main/Ochi%20Design
+cd project-folder-name
+npm install
+npm run dev
