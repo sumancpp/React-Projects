@@ -1,79 +1,55 @@
-:
+# Ochi Design Clone 🎨
 
-🚀 Ochi Design Inspired Website
+A modern frontend project inspired by Ochi Design, built using React and focused on smooth animations, clean UI structure, and interactive scrolling effects.
 
-A modern frontend project inspired by Ochi Design, built to focus on smooth user experience, clean UI, and engaging animations.
+## 🚀 Live Demo
 
-📌 About The Project
+🔗 https://ochi-design-by-suman.vercel.app/ 
 
-This project is developed to practice and implement modern frontend animation techniques, smooth scrolling behavior, and structured component-based architecture using React.
+## 📂 GitHub Repository
 
-The primary goal was to recreate a design-focused website while maintaining clean code structure and smooth interactive experiences.
+🔗 https://github.com/sumancpp/React-Projects/edit/main/Ochi%20Design 
 
-🛠️ Tech Stack
+---
 
-⚛️ React.js – Reusable and scalable component-based architecture
+## 🧠 Project Overview
 
-🎬 Framer Motion – Smooth and interactive animations
+This project was built to practice advanced frontend concepts including animation handling, scroll behavior, and component structuring.
 
-🌊 Smooth Scrolling Effects – Seamless scrolling experience
+The main focus areas were:
 
-🎨 Tailwind CSS – Modern and utility-first styling
+- Smooth motion animations
+- Scroll-based transitions
+- Pixel-perfect layout implementation
+- Clean and reusable component architecture
 
-🔥 Project Highlights
+> ⚠️ Note: This project is currently **not fully responsive**.  
+> It was intentionally built at an early stage to focus primarily on animation logic and layout precision. Responsive optimization will be added in future updates.
 
-Pixel-perfect layout structure
+---
 
-Smooth motion transitions
+## 🛠️ Tech Stack
 
-Interactive hover animations
+- **React.js** – Component-based UI development
+- **Framer Motion** – Animation library for smooth transitions
+- **Tailwind CSS** – Utility-first styling
+- **Smooth Scroll Implementation** – Enhanced user experience
 
-Scroll-based animation effects
+---
 
-Clean and reusable component architecture
+## 📸 Features
 
-Modern UI implementation
+- Smooth page transitions
+- Interactive hover effects
+- Scroll-triggered animations
+- Modern UI layout
+- Structured and reusable components
 
-⚠️ Important Note
+---
 
-This project is not fully responsive yet.
+## 📦 Installation & Setup
 
-It was built at an early stage with primary focus on:
+Clone the repository:
 
-Animation logic
-
-Smooth scrolling behavior
-
-Layout precision
-
-Responsive optimization will be implemented in a future update.
-
-🔗 Live Demo
-
-👉 https://ochi-design-by-suman.vercel.app/
-
-💻 GitHub Repository
-
-👉 https://github.com/sumancpp/React-Projects/edit/main/Ochi%20Design
-
-📚 What I Learned
-
-This project helped me strengthen my understanding of:
-
-Advanced frontend structuring
-
-Animation timing and easing
-
-Scroll-based interactions
-
-Building modern real-world web interfaces
-
-🚀 Future Improvements
-
-Full responsiveness for all devices
-
-Performance optimization
-
-Additional animation refinements
-
-⭐ If you like this project, feel free to star the repository!
+```bash
+https://github.com/sumancpp/React-Projects/edit/main/Ochi%20Design
