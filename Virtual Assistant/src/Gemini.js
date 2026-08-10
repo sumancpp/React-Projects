@@ -1,47 +1,77 @@
+import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const apiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
-const ai = new GoogleGenerativeAI(apiKey);
+const bynaraApiKey = import.meta.env.VITE_BYNARA_API_KEY || import.meta.env.VITE_API_KEY || "";
+const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+
+let bynaraClient = null;
+if (bynaraApiKey && !bynaraApiKey.includes("your_bynara_api_key")) {
+  bynaraClient = new OpenAI({
+    baseURL: "https://router.bynara.id/v1",
+    apiKey: bynaraApiKey,
+    dangerouslyAllowBrowser: true,
+  });
+}
+
+let geminiAI = null;
+if (geminiApiKey && !geminiApiKey.includes("your_gemini_api_key")) {
+  geminiAI = new GoogleGenerativeAI(geminiApiKey);
+}
 
 async function run(prompt, systemInstruction = "") {
-  if (!apiKey || apiKey.trim() === "" || apiKey.includes("your_gemini_api_key")) {
-    console.error("Gemini API key is missing. Please set VITE_GEMINI_API_KEY in your .env file.");
-    return "API Key is missing. Please add a valid VITE_GEMINI_API_KEY to your .env file.";
-  }
-
-  const modelNames = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
-
-  const combinedPrompt = systemInstruction
-    ? `${systemInstruction}\n\n${prompt}`
-    : prompt;
-
-  for (const modelName of modelNames) {
+  // 1. Try Bynara AI Router if API key is provided
+  if (bynaraClient) {
     try {
-      const model = ai.getGenerativeModel({ model: modelName });
-      const result = await model.generateContent(combinedPrompt);
-      const reply = result?.response?.text();
+      const messages = [];
+      if (systemInstruction) {
+        messages.push({ role: "system", content: systemInstruction });
+      }
+      messages.push({ role: "user", content: prompt });
 
+      const response = await bynaraClient.chat.completions.create({
+        model: "auto/bynara",
+        messages: messages,
+      });
+
+      const reply = response?.choices?.[0]?.message?.content;
       if (reply && reply.trim()) {
         return reply.trim();
       }
     } catch (error) {
       const msg = error?.message || "";
+      console.warn("[Bynara Router Error]:", msg);
 
-      if (msg.includes("API_KEY_INVALID") || msg.includes("API key not valid")) {
-        console.error("Gemini API key is invalid.");
-        return "Your Gemini API key is invalid. Please get a valid key from Google AI Studio and update your .env file.";
-      }
-
-      if (msg.includes("Quota exceeded") || msg.includes("quota")) {
-        console.warn(`Quota exceeded for ${modelName}. Trying next model...`);
-      } else {
-        console.warn(`[Gemini API] ${modelName} error:`, msg);
+      if (msg.includes("telegram_required")) {
+        return "Please bind your Telegram account on bynara.id settings page to activate your API key.";
       }
     }
   }
 
-  return "Gemini API quota exceeded or unavailable. Please get a fresh free API key from Google AI Studio and update your .env file.";
+  // 2. Fallback to Google Gemini API if key is provided
+  if (geminiAI) {
+    const modelNames = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
+    const combinedPrompt = systemInstruction ? `${systemInstruction}\n\n${prompt}` : prompt;
+
+    for (const modelName of modelNames) {
+      try {
+        const model = geminiAI.getGenerativeModel({ model: modelName });
+        const result = await model.generateContent(combinedPrompt);
+        const reply = result?.response?.text();
+        if (reply && reply.trim()) {
+          return reply.trim();
+        }
+      } catch (error) {
+        console.warn(`[Gemini API Error] ${modelName}:`, error?.message || error);
+      }
+    }
+  }
+
+  // If no working API key is configured
+  if (!bynaraApiKey && !geminiApiKey) {
+    return "API Key is missing. Please configure VITE_BYNARA_API_KEY or VITE_GEMINI_API_KEY in your .env file.";
+  }
+
+  return "AI service is temporarily unavailable. Please verify your API key configuration in .env file.";
 }
 
 export default run;
-
