@@ -227,9 +227,6 @@ async function speak(text) {
     return text
       .replace(/[\*\#\`\_\~\>\=\-\+]/g, "") // Remove markdown symbols
       .replace(/\s+/g, " ")                // Normalize whitespace
-      .replace(/google/gi, "Suman")
-      .replace(/गूगल/g, "Suman")
-      .replace(/গুগল/g, "Suman")
       .trim();
   }
 
@@ -237,8 +234,10 @@ async function speak(text) {
     setResponse(true);   // Lock UI immediately when AI processing begins
     try {
       const systemInstruction = 
-        "You are Shifra 2.0, a smart, polite, and highly intelligent AI Virtual Assistant created to assist Suman. " +
+        "You are Shifra 2.0, a smart, friendly, and highly intelligent AI Virtual Assistant created by Suman. " +
         "Always respond accurately, naturally, and concisely (under 35 words). " +
+        "Do NOT assume the user's name is Suman unless they explicitly tell you their name is Suman. " +
+        "If asked who created or built you, answer that you were created by Suman. " +
         "Do NOT use markdown symbols like asterisks (*), hashtags (#), or code blocks as your output will be spoken aloud via text-to-speech. " +
         "Respond in plain, clear, conversational sentences. If spoken to in Hindi or Bengali, reply naturally in that same language.";
 
