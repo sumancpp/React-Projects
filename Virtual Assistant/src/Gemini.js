@@ -1,9 +1,26 @@
 import OpenAI from "openai";
 import { GoogleGenerativeAI } from "@google/generative-ai";
 
-const bynaraApiKey = import.meta.env.VITE_BYNARA_API_KEY || import.meta.env.VITE_API_KEY || "";
+const openaiApiKey = import.meta.env.VITE_OPENAI_API_KEY || "";
 const geminiApiKey = import.meta.env.VITE_GEMINI_API_KEY || "";
+const bynaraApiKey = import.meta.env.VITE_BYNARA_API_KEY || "";
 
+// Official OpenAI Client
+let openaiClient = null;
+if (openaiApiKey && !openaiApiKey.includes("your_openai_api_key")) {
+  openaiClient = new OpenAI({
+    apiKey: openaiApiKey,
+    dangerouslyAllowBrowser: true,
+  });
+}
+
+// Official Gemini Client
+let geminiAI = null;
+if (geminiApiKey && !geminiApiKey.includes("your_gemini_api_key")) {
+  geminiAI = new GoogleGenerativeAI(geminiApiKey);
+}
+
+// Bynara AI Router Client
 let bynaraClient = null;
 if (bynaraApiKey && !bynaraApiKey.includes("your_bynara_api_key")) {
   bynaraClient = new OpenAI({
@@ -13,13 +30,57 @@ if (bynaraApiKey && !bynaraApiKey.includes("your_bynara_api_key")) {
   });
 }
 
-let geminiAI = null;
-if (geminiApiKey && !geminiApiKey.includes("your_gemini_api_key")) {
-  geminiAI = new GoogleGenerativeAI(geminiApiKey);
-}
-
 async function run(prompt, systemInstruction = "") {
-  // 1. Try Bynara AI Router if API key is provided
+  // 1. Official OpenAI GPT API (gpt-4o-mini / gpt-3.5-turbo)
+  if (openaiClient) {
+    try {
+      const messages = [];
+      if (systemInstruction) {
+        messages.push({ role: "system", content: systemInstruction });
+      }
+      messages.push({ role: "user", content: prompt });
+
+      const response = await openaiClient.chat.completions.create({
+        model: "gpt-4o-mini",
+        messages: messages,
+      });
+
+      const reply = response?.choices?.[0]?.message?.content;
+      if (reply && reply.trim()) {
+        return reply.trim();
+      }
+    } catch (error) {
+      console.warn("[OpenAI GPT Error]:", error?.message || error);
+      const msg = error?.message || "";
+      if (msg.includes("Incorrect API key") || msg.includes("invalid_api_key")) {
+        return "Your OpenAI API Key is invalid. Please check VITE_OPENAI_API_KEY in your .env file.";
+      }
+      if (msg.includes("quota") || msg.includes("rate_limit")) {
+        return "OpenAI account quota exceeded. Please check your billing at platform.openai.com.";
+      }
+    }
+  }
+
+  // 2. Official Google Gemini API
+  if (geminiAI) {
+    const modelNames = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
+    const combinedPrompt = systemInstruction ? `${systemInstruction}\n\n${prompt}` : prompt;
+
+    for (const modelName of modelNames) {
+      try {
+        const model = geminiAI.getGenerativeModel({ model: modelName });
+        const result = await model.generateContent(combinedPrompt);
+        const reply = result?.response?.text();
+        if (reply && reply.trim()) {
+          return reply.trim();
+        }
+      } catch (error) {
+        console.warn(`[Gemini API Error] ${modelName}:`, error?.message || error);
+      }
+    }
+  }
+
+  // 3. Bynara AI Router
   if (bynaraClient) {
     try {
       const messages = [];
@@ -47,31 +108,12 @@ async function run(prompt, systemInstruction = "") {
     }
   }
 
-  // 2. Fallback to Google Gemini API if key is provided
-  if (geminiAI) {
-    const modelNames = ["gemini-2.0-flash", "gemini-1.5-flash", "gemini-1.5-pro"];
-    const combinedPrompt = systemInstruction ? `${systemInstruction}\n\n${prompt}` : prompt;
-
-    for (const modelName of modelNames) {
-      try {
-        const model = geminiAI.getGenerativeModel({ model: modelName });
-        const result = await model.generateContent(combinedPrompt);
-        const reply = result?.response?.text();
-        if (reply && reply.trim()) {
-          return reply.trim();
-        }
-      } catch (error) {
-        console.warn(`[Gemini API Error] ${modelName}:`, error?.message || error);
-      }
-    }
-  }
-
   // If no working API key is configured
-  if (!bynaraApiKey && !geminiApiKey) {
-    return "API Key is missing. Please configure VITE_BYNARA_API_KEY or VITE_GEMINI_API_KEY in your .env file.";
+  if (!openaiApiKey && !geminiApiKey && !bynaraApiKey) {
+    return "API Key is missing. Please set VITE_OPENAI_API_KEY or VITE_GEMINI_API_KEY in your .env file.";
   }
 
-  return "AI service is temporarily unavailable. Please verify your API key configuration in .env file.";
+  return "AI service is temporarily unavailable. Please verify your API key in .env file.";
 }
 
 export default run;
