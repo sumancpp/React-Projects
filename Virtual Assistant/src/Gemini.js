@@ -9,45 +9,34 @@ async function run(prompt, systemInstruction = "") {
     return "API Key is missing. Please configure VITE_GEMINI_API_KEY in your .env file.";
   }
 
-  // Model fallback list for resilience
-  const modelNames = ["gemini-1.5-flash", "gemini-2.0-flash", "gemini-2.5-flash"];
+  // Official Gemini model list in priority order
+  const modelNames = [
+    "gemini-2.0-flash",
+    "gemini-1.5-flash",
+    "gemini-1.5-pro",
+    "gemini-1.0-pro",
+  ];
+
+  // Combine system instruction with user prompt for universal API compatibility
+  const combinedPrompt = systemInstruction
+    ? `${systemInstruction}\n\n${prompt}`
+    : prompt;
 
   for (const modelName of modelNames) {
-    let attempts = 2;
-    while (attempts > 0) {
-      try {
-        const modelOptions = { model: modelName };
-        if (systemInstruction) {
-          modelOptions.systemInstruction = systemInstruction;
-        }
+    try {
+      const model = ai.getGenerativeModel({ model: modelName });
+      const result = await model.generateContent(combinedPrompt);
+      const reply = result?.response?.text();
 
-        const model = ai.getGenerativeModel(modelOptions);
-        const response = await model.generateContent({
-          contents: [
-            {
-              role: "user",
-              parts: [{ text: prompt }],
-            },
-          ],
-        });
-
-        const reply = response.response.text();
-        if (reply) return reply;
-      } catch (error) {
-        console.warn(`Model ${modelName} attempt failed:`, error.message || error);
-        if (error.message && (error.message.includes("503") || error.message.includes("429"))) {
-          await new Promise((res) => setTimeout(res, 1500));
-          attempts--;
-        } else {
-          // If model is not found or unsupported, break inner loop to try next model in fallback list
-          break;
-        }
+      if (reply && reply.trim()) {
+        return reply.trim();
       }
+    } catch (error) {
+      console.warn(`[Gemini API] ${modelName} fallback triggered:`, error?.message || error);
     }
   }
 
-  throw new Error("Gemini AI failed after multiple model retries.");
+  return "I'm receiving high traffic right now. Please try asking again in a moment.";
 }
 
 export default run;
- 
