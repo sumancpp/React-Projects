@@ -47,26 +47,26 @@ function App() {
     }
   }, [response, speaking, prompt, userSpeech]);
 
-  // Show button with delay after everything is done
-// Show button with delay after everything is done
-useEffect(() => {
-  if (!isListening && !speaking && !response && 
-      prompt === "Tap to start listening...") {
-    
-    // Clear any existing timeout
-    if (buttonDelayRef.current) {
-      clearTimeout(buttonDelayRef.current);
+  // Show button with delay after everything is completely done
+  useEffect(() => {
+    if (!isListening && !speaking && !response && prompt === "Tap to start listening...") {
+      if (buttonDelayRef.current) {
+        clearTimeout(buttonDelayRef.current);
+      }
+      buttonDelayRef.current = setTimeout(() => {
+        setShowButton(true);
+      }, 2000);
+    } else {
+      // Clear timeout and hide button if active or processing
+      if (buttonDelayRef.current) {
+        clearTimeout(buttonDelayRef.current);
+        buttonDelayRef.current = null;
+      }
+      setShowButton(false);
     }
-    
-    // Set 2 second delay before showing button
-    buttonDelayRef.current = setTimeout(() => {
-      setShowButton(true);
-    }, 2000);
-  }
-}, [isListening, speaking, response, prompt]);
+  }, [isListening, speaking, response, prompt]);
 
-  
-// Cleanup timeout
+  // Cleanup timeout
   useEffect(() => {
     return () => {
       if (buttonDelayRef.current) {
@@ -77,9 +77,10 @@ useEffect(() => {
 
   const handleClick = () => {
     try {
-      // Clear states when starting new interaction
+      // Clear states and hide button immediately when starting interaction
       setUserSpeech("");
       setAiReply("");
+      setShowButton(false);
       
       if (isListening) {
         stopListening();

@@ -223,58 +223,69 @@ async function speak(text) {
   }
 
   function cleanText(text) {
-    return text.replace(/\*\*/g, "").replace(/\*/g, "").replace(/`/g, "").trim();
-  }
-
-async function aiResponse(promptText) {
-  try {
-    const systemInstruction = "Respond concisely in 30 words or less. Use previous conversation for context if needed.";
-    const context = conversationHistory.current
-      .map((item) => `User: ${item.user}\nAI: ${item.ai}`)
-      .join("\n");
-
-    const fullPrompt = `${systemInstruction}\n\nPrevious conversation:\n${context}\n\nUser: ${promptText}\nAI:`;
-
-    let text = await run(fullPrompt);
-    text = cleanText(text);
-
-    if (!text) {
-      text = await run(fullPrompt);
-      text = cleanText(text);
-    }
-
-    if (!text) {
-      await speak("Sorry, I couldn't process that.");
-      return;
-    }
-
-    const newText = text
-      .replace(/\*\*/g, "")
-      .replace(/\*/g, "")
+    if (!text) return "";
+    return text
+      .replace(/[\*\#\`\_\~\>\=\-\+]/g, "") // Remove markdown symbols
+      .replace(/\s+/g, " ")                // Normalize whitespace
       .replace(/google/gi, "Suman")
       .replace(/गूगल/g, "Suman")
-      .replace(/গুগল/g, "Suman");
-
-    setResponse(true);   // Lock UI for AI response
-    setPrompt(newText);  // Show AI text in UI
-
-    conversationHistory.current.push({ user: promptText, ai: newText });
-    if (conversationHistory.current.length > 50) conversationHistory.current.shift();
-    saveMemory();
-
-    console.log("AI:", newText);
-
-    await speak(newText);  // Wait until speaking ends
-
-    // After speaking fully ends:
-    setResponse(false);
-    setPrompt("Tap to start listening...");
-  } catch (error) {
-    console.error("AI Error:", error);
-    await speak("Something went wrong, please try again.");
-    setResponse(false);
+      .replace(/গুগল/g, "Suman")
+      .trim();
   }
-}
+
+  async function aiResponse(promptText) {
+    setResponse(true);   // Lock UI immediately when AI processing begins
+    try {
+      const systemInstruction = 
+        "You are Shifra 2.0, a smart, polite, and highly intelligent AI Virtual Assistant created to assist Suman. " +
+        "Always respond accurately, naturally, and concisely (under 35 words). " +
+        "Do NOT use markdown symbols like asterisks (*), hashtags (#), or code blocks as your output will be spoken aloud via text-to-speech. " +
+        "Respond in plain, clear, conversational sentences. If spoken to in Hindi or Bengali, reply naturally in that same language.";
+
+      // Include recent conversation context (last 5 exchanges)
+      const context = conversationHistory.current
+        .slice(-5)
+        .map((item) => `User: ${item.user}\nAI: ${item.ai}`)
+        .join("\n");
+
+      const fullPrompt = context
+        ? `Previous Context:\n${context}\n\nUser Question: ${promptText}`
+        : `User Question: ${promptText}`;
+
+      let text = await run(fullPrompt, systemInstruction);
+      text = cleanText(text);
+
+      if (!text) {
+        text = await run(fullPrompt, systemInstruction);
+        text = cleanText(text);
+      }
+
+      if (!text) {
+        await speak("Sorry, I couldn't process that.");
+        setResponse(false);
+        setPrompt("Tap to start listening...");
+        return;
+      }
+
+      setPrompt(text);     // Show AI text in UI
+
+      conversationHistory.current.push({ user: promptText, ai: text });
+      if (conversationHistory.current.length > 50) conversationHistory.current.shift();
+      saveMemory();
+
+      console.log("AI:", text);
+
+      await speak(text);  // Speak response
+
+      setResponse(false);
+      setPrompt("Tap to start listening...");
+    } catch (error) {
+      console.error("AI Error:", error);
+      await speak("Something went wrong, please try again.");
+      setResponse(false);
+      setPrompt("Tap to start listening...");
+    }
+  }
 
 
   // Initialize speech recognition
@@ -297,21 +308,24 @@ async function aiResponse(promptText) {
     recognition.onstart = () => {
       console.log("Speech recognition started");
       setIsListening(true);
+      setResponse(false);
       setPrompt("Listening...");
     };
 
-   recognition.onresult = (event) => {
-  const transcript = event.results[0][0].transcript;
-  console.log("Heard:", transcript);
-  setPrompt(transcript);  // Show user's speech in UI
-  setIsListening(false);
-  takeCommand(transcript, aiResponse, setResponse, setSpeaking, setPrompt, speak);
-};
+    recognition.onresult = (event) => {
+      const transcript = event.results[0][0].transcript;
+      console.log("Heard:", transcript);
+      setPrompt(transcript);  // Show user's speech in UI
+      setIsListening(false);
+      setResponse(true);     // Lock UI immediately for processing
+      takeCommand(transcript, aiResponse, setResponse, setSpeaking, setPrompt, speak);
+    };
 
 
     recognition.onerror = (e) => {
       console.error("SpeechRecognition error:", e.error);
       setIsListening(false);
+      setResponse(false);
       
       let errorMessage = "Speech recognition error";
       switch(e.error) {
@@ -338,7 +352,7 @@ async function aiResponse(promptText) {
     recognition.onend = () => {
       console.log("Speech recognition ended");
       setIsListening(false);
-      if (!response && !speaking) {
+      if (!response && !speaking && prompt === "Listening...") {
         setPrompt("Tap to start listening...");
       }
     };

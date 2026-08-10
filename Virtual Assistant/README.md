@@ -1,55 +1,19 @@
-# 🎤 Shifra 2.0 – Voice-Powered Virtual Assistant 🤖
+# Virtual Assistant (Shifra 2.0)
 
-Shifra 2.0 is a **voice-powered AI virtual assistant** built with **React.js, Speech Recognition, and Web Speech API**.  
-It listens to your commands, processes them with AI, and responds intelligently – all with a smooth and interactive UI.  
+An advanced AI Virtual Assistant built with React, Vite, Web Speech API, and Google Gemini API.
 
----
+## Features
+- Voice Recognition and Natural Text-to-Speech synthesis (English, Hindi, Bengali)
+- Google Gemini AI API integration (`gemini-1.5-flash`, `gemini-2.0-flash`)
+- Smart location, weather, web search, and site navigation commands
+- Clean UI with dynamic voice animations
 
-## 🚀 Features
-- ✅ **Voice Input with Real-Time Transcription**  
-- ✅ **AI-Powered Responses**  
-- ✅ **Dynamic UI Updates** – buttons hide while listening/speaking  
-- ✅ **Speech Synthesis for Natural Responses**  
-- ✅ **Microphone Permission Handling** for secure usage  
-- ✅ **Clean & Responsive UI** with React Hooks  
+## Setup
+1. Clone the repository.
+2. Install dependencies: `npm install`
+3. Copy `.env.example` to `.env` and insert your Gemini API Key:
+   ```env
+   VITE_GEMINI_API_KEY=your_gemini_api_key_here
+   ```
+4. Start dev server: `npm run dev`
 
----
-
-## 🛠️ Tech Stack
-- **Frontend:** React.js, JavaScript, HTML, CSS  
-- **APIs:** Web Speech API (Speech Recognition + Speech Synthesis)  
-- **State Management:** React Hooks (`useState`, `useEffect`, `useContext`)  
-
----
-
-## 🌐 Live Demo
-👉 [Try Shifra 2.0 Here](https://shifra-advanced-virtual-assistant.netlify.app/)  
-
----
-
-## 📂 Repository
-👉 [GitHub Repo](https://github.com/sumancpp/React-Projects/tree/main/Virtual%20Assistant)  
-
----
-
-## 📖 How to Run Locally
-1. Clone the repository  
-   ```bash
-   git clone https://github.com/sumancpp/React-Projects.git   
-   cd React-Projects/Virtual Assistant    
-   npm install    
-   npm start    
-
----   
-
-## 🎯 Learning Outcomes
-
-This project helped me strengthen my knowledge in:
-
-React.js fundamentals & advanced concepts
-
-Browser Speech APIs integration
-
-Asynchronous audio handling in JavaScript
-
-Building responsive and interactive UIs
